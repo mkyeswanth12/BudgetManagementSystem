@@ -1,0 +1,55 @@
+#!/bin/bash
+
+prdt=$(date '+%d %b %H:%M')
+mysqlpsswd=4080
+
+function addbudject() {
+  sudo mysql -u root -p$mysqlpsswd -D MK -e "UPDATE MYBUDJECT SET Budject=$1"
+}
+
+function showbudject() {
+  ttlamtspnd=$(sudo mysql -u root -p$mysqlpsswd -D MK -s -N -e "SELECT SUM(amount) FROM DATAOFBUDJECT")
+  mainbud=$(sudo mysql -u root -p$mysqlpsswd -D MK -s -N -e "SELECT * FROM MYBUDJECT")
+  tl=$(expr $mainbud - $ttlamtspnd)
+  echo "Total Left : $tl"
+}
+function additem() {
+    sudo mysql -u root -p$mysqlpsswd -D MK -e "INSERT INTO DATAOFBUDJECT VALUES('$1',$2,'$prdt')"
+    showbudject
+}
+
+if [ "$1" = '-ab' ]
+then
+  addbudject $2
+fi
+
+if [ "$1" = '-bl' ]
+then
+  sudo mysql -u root -p$mysqlpsswd -D MK -e "SELECT * FROM DATAOFBUDJECT"
+  showbudject
+fi
+
+if [ "$1" = '-b' ]
+then
+  if [ -z "$2" ]
+      then
+      showbudject
+    else
+      additem $2 $3
+  fi
+fi
+
+function help() {
+  echo "  Tms is a Simple TaskManagment System
+
+  usage: bms -ab         -Add Budject
+             -b          -Show Budject
+             -bl         -Show log of Your Budject
+         
+}
+
+
+if [ -z "$1" ]
+  then
+    help
+fi
