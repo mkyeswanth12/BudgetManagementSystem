@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prdt=$(date '+%d %b %H:%M')
-mysqlpsswd=4080
+mysqlpsswd=1234
 
 function addbudject() {
   sudo mysql -u root -p$mysqlpsswd -D MK -e "UPDATE MYBUDJECT SET Budject=$1"
