@@ -44,7 +44,7 @@ function help() {
 
   usage: bms -ab         -Add Budject
              -b          -Show Budject
-             -bl         -Show log of Your Budject
+             -bl         -Show log of Your Budject"
          
 }
 
